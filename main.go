@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 
+	"robinhood-assignment/api"
+	"robinhood-assignment/application/service"
 	"robinhood-assignment/domain/entity"
 	"robinhood-assignment/infrastructure/postgres"
 
@@ -33,11 +35,27 @@ func main() {
 
 	db.AutoMigrate(&entity.Appointment{}, &entity.Comment{}, &entity.User{})
 
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080
+	ar := postgres.NewAppointmentRepository(db)
+	as := service.NewAppointmentService(ar)
+	ah := api.NewAppointmentHandler(as)
+
+	cr := postgres.NewCommentRepository(db)
+	cs := service.NewCommentService(cr)
+	ch := api.NewCommentHandler(cs)
+
+	ur := postgres.NewUserRepository(db)
+	us := service.NewUserService(ur)
+	uh := api.NewUserHandler(us)
+
+	r := gin.New()
+	r.GET("/appointments/:id", ah.GetByID)
+	r.GET("/appointments", ah.GetAll)
+	r.POST("/appointments", ah.Create)
+	r.GET("/comments/:id", ch.GetByID)
+	r.GET("/comments", ch.GetAll)
+	r.POST("/comments", ch.Create)
+	r.GET("/users/:id", uh.GetByID)
+	r.GET("/users", uh.GetAll)
+	r.POST("/users", uh.Create)
+	r.Run()
 }
