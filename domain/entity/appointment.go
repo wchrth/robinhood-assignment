@@ -4,11 +4,11 @@ import "time"
 
 type Appointment struct {
 	ID          uint
-	Description string
+	Description string `gorm:"size:200;not null"`
 	Comments    []Comment
 	UserID      uint
 	User        User
-	IsArchived  bool
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	IsArchived  bool      `gorm:"default:false;not null"`
+	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }
