@@ -2,6 +2,8 @@ version: "3.9"
 services:
   web:
     container_name: golang_container
+    environment:
+      - POSTGRES_HOST=host.docker.internal
     build: .
     ports:
       - 8080:8080
