@@ -51,6 +51,7 @@ func main() {
 	r.GET("/appointments/:id", ah.GetByID)
 	r.GET("/appointments", ah.GetAll)
 	r.POST("/appointments", ah.Create)
+	r.POST("/appointments/:id/archive", ah.Archive)
 	r.GET("/comments/:id", ch.GetByID)
 	r.GET("/comments", ch.GetAll)
 	r.POST("/comments", ch.Create)

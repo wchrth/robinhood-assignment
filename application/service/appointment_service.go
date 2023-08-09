@@ -10,6 +10,7 @@ type AppointmentService interface {
 	GetByID(id int) (*dto.AppointmentResponse, error)
 	GetAll(offset, limit int) ([]dto.AppointmentResponse, error)
 	Create(request *dto.CreateAppointmentRequest) error
+	Archive(id int) (*dto.AppointmentResponse, error)
 }
 
 type appointmentService struct {
@@ -53,4 +54,18 @@ func (as appointmentService) Create(request *dto.CreateAppointmentRequest) error
 	}
 
 	return as.AppointmentRepository.Save(appointment)
+}
+
+func (as appointmentService) Archive(id int) (*dto.AppointmentResponse, error) {
+	appointment, err := as.AppointmentRepository.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	appointment.IsArchived = true
+	as.AppointmentRepository.Save(appointment)
+
+	appointmentResponse := dto.NewAppointmentResponse(*appointment)
+
+	return &appointmentResponse, nil
 }

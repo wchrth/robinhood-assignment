@@ -76,5 +76,4 @@ func (ch CommentHandler) Create(c *gin.Context) {
 
 	response := NewResponse(http.StatusCreated, request)
 	c.JSON(response.StatusCode, response)
-
 }

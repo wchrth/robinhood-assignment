@@ -76,5 +76,21 @@ func (ah AppointmentHandler) Create(c *gin.Context) {
 
 	response := NewResponse(http.StatusCreated, request)
 	c.JSON(response.StatusCode, response)
+}
 
+func (ah AppointmentHandler) Archive(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "invalid request")
+		return
+	}
+
+	appointment, err := ah.AppointmentService.Archive(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	response := NewResponse(http.StatusOK, appointment)
+	c.JSON(response.StatusCode, response)
 }
