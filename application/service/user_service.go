@@ -16,12 +16,12 @@ type userService struct {
 	UserRepository repository.UserRepository
 }
 
-func NewUserService(ar repository.UserRepository) UserService {
-	return userService{UserRepository: ar}
+func NewUserService(ur repository.UserRepository) UserService {
+	return userService{UserRepository: ur}
 }
 
-func (as userService) GetByID(id int) (*dto.UserResponse, error) {
-	user, err := as.UserRepository.GetByID(id)
+func (us userService) GetByID(id int) (*dto.UserResponse, error) {
+	user, err := us.UserRepository.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -31,8 +31,8 @@ func (as userService) GetByID(id int) (*dto.UserResponse, error) {
 	return &userResponse, nil
 }
 
-func (as userService) GetAll(offset, limit int) ([]dto.UserResponse, error) {
-	users, err := as.UserRepository.GetAll(offset, limit)
+func (us userService) GetAll(offset, limit int) ([]dto.UserResponse, error) {
+	users, err := us.UserRepository.GetAll(offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45,12 +45,12 @@ func (as userService) GetAll(offset, limit int) ([]dto.UserResponse, error) {
 	return userResponses, nil
 }
 
-func (as userService) Create(request *dto.CreateUserRequest) error {
+func (us userService) Create(request *dto.CreateUserRequest) error {
 
 	user := &entity.User{
 		DisplayName: request.DisplayName,
 		Email:       request.Email,
 	}
 
-	return as.UserRepository.Save(user)
+	return us.UserRepository.Save(user)
 }

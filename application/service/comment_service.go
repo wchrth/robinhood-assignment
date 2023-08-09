@@ -16,12 +16,12 @@ type commentService struct {
 	CommentRepository repository.CommentRepository
 }
 
-func NewCommentService(ar repository.CommentRepository) CommentService {
-	return commentService{CommentRepository: ar}
+func NewCommentService(cr repository.CommentRepository) CommentService {
+	return commentService{CommentRepository: cr}
 }
 
-func (as commentService) GetByID(id int) (*dto.CommentResponse, error) {
-	comment, err := as.CommentRepository.GetByID(id)
+func (cs commentService) GetByID(id int) (*dto.CommentResponse, error) {
+	comment, err := cs.CommentRepository.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -31,8 +31,8 @@ func (as commentService) GetByID(id int) (*dto.CommentResponse, error) {
 	return &commentResponse, nil
 }
 
-func (as commentService) GetAll(offset, limit int) ([]dto.CommentResponse, error) {
-	comments, err := as.CommentRepository.GetAll(offset, limit)
+func (cs commentService) GetAll(offset, limit int) ([]dto.CommentResponse, error) {
+	comments, err := cs.CommentRepository.GetAll(offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (as commentService) GetAll(offset, limit int) ([]dto.CommentResponse, error
 	return commentResponses, nil
 }
 
-func (as commentService) Create(request *dto.CreateCommentRequest) error {
+func (cs commentService) Create(request *dto.CreateCommentRequest) error {
 
 	comment := &entity.Comment{
 		Comment:       request.Comment,
@@ -53,5 +53,5 @@ func (as commentService) Create(request *dto.CreateCommentRequest) error {
 		UserID:        request.UserID,
 	}
 
-	return as.CommentRepository.Save(comment)
+	return cs.CommentRepository.Save(comment)
 }
