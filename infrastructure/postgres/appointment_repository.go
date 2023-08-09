@@ -17,7 +17,7 @@ func NewAppointmentRepository(db *gorm.DB) repository.AppointmentRepository {
 
 func (ar AppointmentRepository) GetByID(id int) (*entity.Appointment, error) {
 	appointment := &entity.Appointment{}
-	if err := ar.DB.Preload("Comment").First(&appointment, id).Error; err != nil {
+	if err := ar.DB.Preload("Comments").Preload("User").First(&appointment, id).Error; err != nil {
 		return nil, err
 	}
 	return appointment, nil
@@ -25,7 +25,7 @@ func (ar AppointmentRepository) GetByID(id int) (*entity.Appointment, error) {
 
 func (ar AppointmentRepository) GetAll(offset, limit int) ([]entity.Appointment, error) {
 	appointments := []entity.Appointment{}
-	if err := ar.DB.Preload("Comment").Offset(offset).Limit(limit).Find(&appointments).Error; err != nil {
+	if err := ar.DB.Preload("Comments").Preload("User").Offset(offset).Limit(limit).Find(&appointments).Error; err != nil {
 		return nil, err
 	}
 	return appointments, nil
