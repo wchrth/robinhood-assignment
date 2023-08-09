@@ -6,20 +6,20 @@ import (
 )
 
 type CreateAppointmentRequest struct {
-	Description string
-	UserID      uint
+	Description string `json:"description"`
+	UserID      uint   `json:"userID"`
 }
 
 type AppointmentResponse struct {
-	ID              uint
-	Description     string
-	Comments        []CommentResponse
-	UserID          uint
-	UserDisplayName string
-	UserEmail       string
-	IsArchived      bool
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
+	ID              uint              `json:"id"`
+	Description     string            `json:"description"`
+	Comments        []CommentResponse `json:"comments"`
+	UserID          uint              `json:"userID"`
+	UserDisplayName string            `json:"userDisplayName"`
+	UserEmail       string            `json:"userEmail"`
+	IsArchived      bool              `json:"isArchived"`
+	CreatedAt       time.Time         `json:"createdAt"`
+	UpdatedAt       time.Time         `json:"updatedAt"`
 }
 
 func NewAppointmentResponse(appointment entity.Appointment) AppointmentResponse {

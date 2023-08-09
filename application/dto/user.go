@@ -6,16 +6,16 @@ import (
 )
 
 type CreateUserRequest struct {
-	DisplayName string
-	Email       string
+	DisplayName string `json:"displayName"`
+	Email       string `json:"email"`
 }
 
 type UserResponse struct {
-	ID          uint
-	DisplayName string
-	Email       string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID          uint      `json:"id"`
+	DisplayName string    `json:"displayName"`
+	Email       string    `json:"email"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
 func NewUserResponse(user entity.User) UserResponse {

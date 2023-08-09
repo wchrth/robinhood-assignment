@@ -6,19 +6,19 @@ import (
 )
 
 type CreateCommentRequest struct {
-	Comment       string
-	AppointmentID uint
-	UserID        uint
+	Comment       string `json:"comment"`
+	AppointmentID uint   `json:"appointmentID"`
+	UserID        uint   `json:"userID"`
 }
 
 type CommentResponse struct {
-	ID              uint
-	Comment         string
-	UserID          uint
-	UserDisplayName string
-	UserEmail       string
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
+	ID              uint      `json:"id"`
+	Comment         string    `json:"comment"`
+	UserID          uint      `json:"userID"`
+	UserDisplayName string    `json:"userDisplayName"`
+	UserEmail       string    `json:"userEmail"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
 func NewCommentResponse(comment entity.Comment) CommentResponse {
