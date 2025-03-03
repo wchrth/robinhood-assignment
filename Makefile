@@ -20,4 +20,4 @@ migrate-create:
 
 migrate-local:
 	docker run --rm --network host -v ./db:/db migrate/migrate \
-		-source file://db/migrations -database postgres://appuser:1234@localhost:5432/testdb?sslmode=disable up
+		-path db/migrations -database postgres://appuser:1234@localhost:5432/testdb?sslmode=disable up
