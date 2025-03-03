@@ -1,0 +1,38 @@
+services:
+  go-app:
+    build: .
+    container_name: go-app
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=testdb
+      - DATABASE_USER=appuser
+      - DATABASE_PASSWORD=1234
+    ports:
+      - "8080:8080"
+    networks:
+      - go-network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17.3-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=appuser
+      - POSTGRES_PASSWORD=1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - go-network
+
+networks:
+  go-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
