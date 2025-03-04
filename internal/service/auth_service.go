@@ -28,12 +28,8 @@ func (service *authServiceImpl) Authenticate(loginRequestDTO *dto.LoginRequestDT
 		return nil, api.ErrUserNotFound
 	}
 
-	hashedLoginPassword, err := bcrypt.GenerateFromPassword([]byte(loginRequestDTO.Password), bcrypt.DefaultCost)
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginRequestDTO.Password))
 	if err != nil {
-		return nil, err
-	}
-
-	if user.Password != string(hashedLoginPassword) {
 		return nil, api.ErrInvalidPassword
 	}
 
