@@ -1,6 +1,9 @@
 package api
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 type APIError struct {
 	Code    int    // HTTP status code (e.g., 404, 500)
@@ -19,9 +22,14 @@ func (e *APIError) Error() string {
 }
 
 var (
-	ErrEmailAlreadyInUse   = NewAPIError(409, "Email already in use")
-	ErrUserNotFound        = NewAPIError(404, "User not found")
-	ErrInternalServerError = NewAPIError(500, "Internal server error")
-	ErrInvalidInput        = NewAPIError(400, "Invalid input")
-	ErrInvalidUserID       = NewAPIError(400, "Invalid user ID")
+	ErrEmailAlreadyInUse                     = NewAPIError(http.StatusConflict, "Email already in use")
+	ErrUserNotFound                          = NewAPIError(http.StatusNotFound, "User not found")
+	ErrInternalServerError                   = NewAPIError(http.StatusInternalServerError, "Internal server error")
+	ErrInvalidInput                          = NewAPIError(http.StatusBadRequest, "Invalid input")
+	ErrInvalidUserID                         = NewAPIError(http.StatusBadRequest, "Invalid user ID")
+	ErrInvalidToken                          = NewAPIError(http.StatusUnauthorized, "Invalid token")
+	ErrInvalidClaims                         = NewAPIError(http.StatusUnauthorized, "Invalid claims")
+	ErrInvalidTokenType                      = NewAPIError(http.StatusUnauthorized, "Invalid token type")
+	ErrInvalidPassword                       = NewAPIError(http.StatusUnauthorized, "Invalid password")
+	ErrAuthorizationHeaderMissingOrMalformed = NewAPIError(http.StatusUnauthorized, "Authorization header missing or malformed")
 )

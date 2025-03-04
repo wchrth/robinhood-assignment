@@ -28,9 +28,14 @@ func main() {
 	userService := service.NewUserServiceImpl(userRepository)
 	userHandler := handler.NewUserHandler(userService)
 
+	jwtService := service.NewJWTServiceImpl(&cfg.JWT)
+	authService := service.NewAuthServiceImpl(userRepository, jwtService)
+	authHandler := handler.NewAuthHandler(authService)
+
 	router := gin.Default()
 
-	route.SetupUserRoute(router, userHandler)
+	route.SetupUserRoute(router, userHandler, jwtService)
+	route.SetupAuthRoute(router, authHandler)
 
 	router.Run(fmt.Sprintf(":%s", cfg.App.Port))
 }

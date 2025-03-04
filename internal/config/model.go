@@ -1,8 +1,11 @@
 package config
 
+import "time"
+
 type Config struct {
 	App      AppConfig      `mapstructure:"app"`
 	Database DatabaseConfig `mapstructure:"database"`
+	JWT      JWTConfig      `mapstructure:"jwt"`
 }
 
 type AppConfig struct {
@@ -15,4 +18,11 @@ type DatabaseConfig struct {
 	Name     string `mapstructure:"name"`
 	User     string `mapstructure:"user"`
 	Password string `mapstructure:"password"`
+}
+
+type JWTConfig struct {
+	SecretKey             string        `mapstructure:"secret_key"`
+	Issuer                string        `mapstructure:"issuer"`
+	AccessExpirationTime  time.Duration `mapstructure:"access_expiration_time"`
+	RefreshExpirationTime time.Duration `mapstructure:"refresh_expiration_time"`
 }

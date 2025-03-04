@@ -7,3 +7,9 @@ database:
   name: testdb
   user: appuser
   password: 1234
+
+jwt:
+  secret_key: secret_key
+  issuer: myapp
+  access_expiration_time: 1h
+  refresh_expiration_time: 24h
