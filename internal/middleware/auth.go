@@ -13,7 +13,7 @@ func AuthMiddleware(jwtService service.JWTService) gin.HandlerFunc {
 		authHeader := c.GetHeader("Authorization")
 
 		if !strings.HasPrefix(authHeader, "Bearer ") {
-			api.RespondError(c, api.ErrAuthorizationHeaderMissingOrMalformed)
+			api.RespondError(c, api.ErrUnauthorized)
 			c.Abort()
 			return
 		}
