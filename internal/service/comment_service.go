@@ -13,7 +13,7 @@ import (
 type CommentService interface {
 	Create(commentDTO *dto.CommentDTO, appointmentID, userID int64) error
 	Update(commentDTO *dto.CommentDTO, id, userID int64) error
-	Delete(id int64) error
+	Delete(id, userID int64) error
 	GetByAppointmentID(appointmentID int64) ([]model.Comment, error)
 }
 
@@ -63,6 +63,10 @@ func (service *commentServiceImpl) Update(commentDTO *dto.CommentDTO, id, userID
 		return err
 	}
 
+	if comment.UserID != userID {
+		return api.ErrAccessDenied
+	}
+
 	user, err := service.userRepo.GetByID(userID)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -83,13 +87,17 @@ func (service *commentServiceImpl) Update(commentDTO *dto.CommentDTO, id, userID
 	return nil
 }
 
-func (service *commentServiceImpl) Delete(id int64) error {
-	_, err := service.commentRepo.GetByID(id)
+func (service *commentServiceImpl) Delete(id, userID int64) error {
+	comment, err := service.commentRepo.GetByID(id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return api.ErrDataNotFound
 		}
 		return err
+	}
+
+	if comment.UserID != userID {
+		return api.ErrAccessDenied
 	}
 
 	err = service.commentRepo.Delete(id)

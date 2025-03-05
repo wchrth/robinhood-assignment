@@ -33,4 +33,5 @@ var (
 	ErrInvalidTokenType    = NewAPIError(http.StatusUnauthorized, "Invalid token type")
 	ErrInvalidPassword     = NewAPIError(http.StatusUnauthorized, "Invalid password")
 	ErrUnauthorized        = NewAPIError(http.StatusUnauthorized, "Unauthorized")
+	ErrAccessDenied        = NewAPIError(http.StatusForbidden, "Access denied")
 )
