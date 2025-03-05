@@ -24,6 +24,7 @@ func (e *APIError) Error() string {
 var (
 	ErrEmailAlreadyInUse   = NewAPIError(http.StatusConflict, "Email already in use")
 	ErrUserNotFound        = NewAPIError(http.StatusNotFound, "User not found")
+	ErrDataNotFound        = NewAPIError(http.StatusNotFound, "Data not found")
 	ErrInternalServerError = NewAPIError(http.StatusInternalServerError, "Internal server error")
 	ErrInvalidInput        = NewAPIError(http.StatusBadRequest, "Invalid input")
 	ErrInvalidUserID       = NewAPIError(http.StatusBadRequest, "Invalid user ID")

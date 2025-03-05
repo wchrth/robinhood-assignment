@@ -28,6 +28,10 @@ func main() {
 	userService := service.NewUserServiceImpl(userRepository)
 	userHandler := handler.NewUserHandler(userService)
 
+	appointmentRepository := repository.NewAppointmentRepositoryDB(db)
+	appointmentService := service.NewAppointmentServiceImpl(appointmentRepository, userRepository)
+	appointmentHandler := handler.NewAppointmentHandler(appointmentService)
+
 	jwtService := service.NewJWTServiceImpl(&cfg.JWT)
 	authService := service.NewAuthServiceImpl(userRepository, jwtService)
 	authHandler := handler.NewAuthHandler(authService)
@@ -35,6 +39,7 @@ func main() {
 	router := gin.Default()
 
 	route.SetupUserRoute(router, userHandler, jwtService)
+	route.SetupAppointmentRoute(router, appointmentHandler, jwtService)
 	route.SetupAuthRoute(router, authHandler)
 
 	router.Run(fmt.Sprintf(":%s", cfg.App.Port))
