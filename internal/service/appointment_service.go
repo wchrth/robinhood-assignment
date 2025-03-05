@@ -145,7 +145,7 @@ func (service *appointmentServiceImpl) Delete(id int64) error {
 		return err
 	}
 
-	err = service.Delete(id)
+	err = service.appointmentRepo.Delete(id)
 	if err != nil {
 		return err
 	}
