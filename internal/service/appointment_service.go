@@ -6,6 +6,7 @@ import (
 	"robinhood-assignment/internal/api"
 	"robinhood-assignment/internal/constant"
 	"robinhood-assignment/internal/dto"
+	"robinhood-assignment/internal/model"
 	"robinhood-assignment/internal/repository"
 	"time"
 )
@@ -73,6 +74,16 @@ func (service *appointmentServiceImpl) Create(createAppointmentDTO *dto.CreateAp
 		return err
 	}
 
+	var history model.AppointmentHistory
+	history.Title = appointment.Title
+	history.Description = appointment.Description
+	history.Status = appointment.Status
+
+	err = service.appointmentRepo.CreateHistory(&history)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -105,6 +116,16 @@ func (service *appointmentServiceImpl) Update(updateAppointmentDTO *dto.UpdateAp
 	appointment.UpdatedBy = user.DisplayName
 
 	err = service.appointmentRepo.Update(appointment)
+	if err != nil {
+		return err
+	}
+
+	var history model.AppointmentHistory
+	history.Title = appointment.Title
+	history.Description = appointment.Description
+	history.Status = appointment.Status
+
+	err = service.appointmentRepo.CreateHistory(&history)
 	if err != nil {
 		return err
 	}

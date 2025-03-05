@@ -12,6 +12,8 @@ type AppointmentRepository interface {
 	Create(appointment *model.Appointment) error
 	Update(appointment *model.Appointment) error
 	Delete(id int64) error
+	CreateHistory(history *model.AppointmentHistory) error
+	GetHistories(appointmentID int64) ([]model.AppointmentHistory, error)
 }
 
 type appointmentRepositoryDB struct {
@@ -75,4 +77,27 @@ func (repo *appointmentRepositoryDB) Delete(id int64) error {
 		return err
 	}
 	return nil
+}
+
+func (repo *appointmentRepositoryDB) CreateHistory(history *model.AppointmentHistory) error {
+	query := `
+		INSERT INTO appointment_histories (title, description, status, appointment_id)
+		VALUES ($1, $2, $3, $4)
+		RETURNING id`
+
+	err := repo.db.QueryRowx(query, history.Title, history.Description, history.Status, history.AppointmentID).Scan(&history.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *appointmentRepositoryDB) GetHistories(appointmentID int64) ([]model.AppointmentHistory, error) {
+	var appointmentHistories []model.AppointmentHistory
+	query := `SELECT * FROM appointment_histories where appointment_id = $1`
+	err := repo.db.Select(&appointmentHistories, query, appointmentID)
+	if err != nil {
+		return nil, err
+	}
+	return appointmentHistories, nil
 }
