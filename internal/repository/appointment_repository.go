@@ -36,7 +36,7 @@ func (repo *appointmentRepositoryDB) GetAll() ([]model.Appointment, error) {
 
 func (repo *appointmentRepositoryDB) GetByID(id int64) (*model.Appointment, error) {
 	var appointment model.Appointment
-	query := "SELECT * FROM appointment WHERE id=$1"
+	query := "SELECT * FROM appointments WHERE id=$1"
 	err := repo.db.Get(&appointment, query, id)
 	if err != nil {
 		return nil, err
