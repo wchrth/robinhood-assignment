@@ -3,7 +3,6 @@ package service
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"robinhood-assignment/internal/api"
 	"robinhood-assignment/internal/dto"
 	"robinhood-assignment/internal/repository"
@@ -88,7 +87,6 @@ func (service *userServiceImpl) Create(userDTO *dto.UserDTO) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(user)
 
 	return nil
 }
