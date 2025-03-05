@@ -18,6 +18,7 @@ type AppointmentService interface {
 	Update(updateAppointmentDTO *dto.UpdateAppointmentDTO, id, userID int64) error
 	Delete(id int64) error
 	Archive(id, userID int64) error
+	GetHistories(appointmentID int64) ([]model.AppointmentHistory, error)
 }
 
 type appointmentServiceImpl struct {
@@ -179,4 +180,12 @@ func (service *appointmentServiceImpl) Archive(id, userID int64) error {
 	}
 
 	return nil
+}
+
+func (service *appointmentServiceImpl) GetHistories(appointmentID int64) ([]model.AppointmentHistory, error) {
+	histories, err := service.appointmentRepo.GetHistories(appointmentID)
+	if err != nil {
+		return nil, err
+	}
+	return histories, nil
 }

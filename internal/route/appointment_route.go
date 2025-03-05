@@ -21,6 +21,7 @@ func SetupAppointmentRoute(router *gin.Engine, appointmentHandler *handler.Appoi
 		v1.PUT("/appointments/:id", appointmentHandler.UpdateAppointment)
 		v1.DELETE("/appointments/:id", appointmentHandler.DeleteAppointment)
 		v1.POST("/appointments/:id/archive", appointmentHandler.ArchiveAppointment)
+		v1.GET("/appointments/:id/histories", appointmentHandler.GetAppointmentHistories)
 
 	}
 

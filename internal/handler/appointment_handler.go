@@ -130,3 +130,20 @@ func (h *AppointmentHandler) ArchiveAppointment(c *gin.Context) {
 
 	api.RespondSuccessNoData(c, http.StatusOK, "Appointment archived successfully")
 }
+
+func (h *AppointmentHandler) GetAppointmentHistories(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		apiErr := api.ErrInvalidInput
+		api.RespondError(c, apiErr)
+		return
+	}
+
+	histories, err := h.appointmentService.GetHistories(id)
+	if err != nil {
+		api.RespondError(c, err)
+		return
+	}
+
+	api.RespondSuccess(c, http.StatusOK, "Appointment histories retrieved successfully", histories)
+}
