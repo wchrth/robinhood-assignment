@@ -111,3 +111,22 @@ func (h *AppointmentHandler) DeleteAppointment(c *gin.Context) {
 
 	api.RespondSuccessNoData(c, http.StatusOK, "Appointment deleted successfully")
 }
+
+func (h *AppointmentHandler) ArchiveAppointment(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		apiErr := api.ErrInvalidInput
+		api.RespondError(c, apiErr)
+		return
+	}
+
+	userID := c.GetInt64("userID")
+
+	err = h.appointmentService.Archive(id, userID)
+	if err != nil {
+		api.RespondError(c, err)
+		return
+	}
+
+	api.RespondSuccessNoData(c, http.StatusOK, "Appointment archived successfully")
+}

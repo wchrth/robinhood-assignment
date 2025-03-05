@@ -16,6 +16,7 @@ type AppointmentService interface {
 	Create(createAppointmentDTO *dto.CreateAppointmentDTO, userID int64) error
 	Update(updateAppointmentDTO *dto.UpdateAppointmentDTO, id, userID int64) error
 	Delete(id int64) error
+	Archive(id, userID int64) error
 }
 
 type appointmentServiceImpl struct {
@@ -121,6 +122,35 @@ func (service *appointmentServiceImpl) Delete(id int64) error {
 	}
 
 	err = service.Delete(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (service *appointmentServiceImpl) Archive(id, userID int64) error {
+	appointment, err := service.appointmentRepo.GetByID(id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return api.ErrDataNotFound
+		}
+		return err
+	}
+
+	user, err := service.userRepo.GetByID(userID)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return api.ErrUserNotFound
+		}
+		return err
+	}
+
+	appointment.IsArchived = true
+	appointment.UpdatedDate = time.Now().UTC()
+	appointment.UpdatedBy = user.DisplayName
+
+	err = service.appointmentRepo.Update(appointment)
 	if err != nil {
 		return err
 	}
