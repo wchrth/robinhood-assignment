@@ -183,9 +183,5 @@ func (service *appointmentServiceImpl) Archive(id, userID int64) error {
 }
 
 func (service *appointmentServiceImpl) GetHistories(appointmentID int64) ([]model.AppointmentHistory, error) {
-	histories, err := service.appointmentRepo.GetHistories(appointmentID)
-	if err != nil {
-		return nil, err
-	}
-	return histories, nil
+	return service.appointmentRepo.GetHistories(appointmentID)
 }
