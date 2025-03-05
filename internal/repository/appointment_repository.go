@@ -24,7 +24,7 @@ func NewAppointmentRepositoryDB(db *sqlx.DB) AppointmentRepository {
 
 func (repo *appointmentRepositoryDB) GetAll() ([]model.Appointment, error) {
 	var appointments []model.Appointment
-	query := `SELECT * FROM appointments`
+	query := `SELECT * FROM appointments where is_archived = false`
 	err := repo.db.Select(&appointments, query)
 	if err != nil {
 		return nil, err
