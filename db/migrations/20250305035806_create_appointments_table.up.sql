@@ -3,7 +3,7 @@ CREATE TABLE appointments (
     title varchar(255) NOT NULL,
     description text NOT NULL,
     status varchar(50) NOT NULL,
-    is_archived boolean NOT NULL
+    is_archived boolean NOT NULL,
     user_id bigint NOT NULL,
     created_date timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(100) NOT NULL,
