@@ -32,6 +32,10 @@ func main() {
 	appointmentService := service.NewAppointmentServiceImpl(appointmentRepository, userRepository)
 	appointmentHandler := handler.NewAppointmentHandler(appointmentService)
 
+	commentRepository := repository.NewCommentRepositoryDB(db)
+	commentService := service.NewCommentServiceImpl(commentRepository, userRepository)
+	commentHandler := handler.NewCommentHandler(commentService)
+
 	jwtService := service.NewJWTServiceImpl(&cfg.JWT)
 	authService := service.NewAuthServiceImpl(userRepository, jwtService)
 	authHandler := handler.NewAuthHandler(authService)
@@ -40,6 +44,7 @@ func main() {
 
 	route.SetupUserRoute(router, userHandler, jwtService)
 	route.SetupAppointmentRoute(router, appointmentHandler, jwtService)
+	route.SetupCommentRoute(router, commentHandler, jwtService)
 	route.SetupAuthRoute(router, authHandler)
 
 	router.Run(fmt.Sprintf(":%s", cfg.App.Port))
