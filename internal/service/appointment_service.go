@@ -78,6 +78,7 @@ func (service *appointmentServiceImpl) Create(createAppointmentDTO *dto.CreateAp
 	history.Title = appointment.Title
 	history.Description = appointment.Description
 	history.Status = appointment.Status
+	history.AppointmentID = appointment.ID
 
 	err = service.appointmentRepo.CreateHistory(&history)
 	if err != nil {
@@ -124,6 +125,7 @@ func (service *appointmentServiceImpl) Update(updateAppointmentDTO *dto.UpdateAp
 	history.Title = appointment.Title
 	history.Description = appointment.Description
 	history.Status = appointment.Status
+	history.AppointmentID = appointment.ID
 
 	err = service.appointmentRepo.CreateHistory(&history)
 	if err != nil {
