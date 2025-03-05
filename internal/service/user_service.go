@@ -31,7 +31,7 @@ func (service *userServiceImpl) GetAll() ([]dto.UserResponseDTO, error) {
 	if err != nil {
 		return nil, err
 	}
-	return dto.ToUserResponseDTOs(users), nil
+	return dto.ConvertUserModelsToUserResponseDTOs(users), nil
 }
 
 func (service *userServiceImpl) GetByID(id int64) (*dto.UserResponseDTO, error) {
@@ -43,7 +43,7 @@ func (service *userServiceImpl) GetByID(id int64) (*dto.UserResponseDTO, error) 
 		return nil, err
 	}
 
-	return dto.ToUserResponseDTO(user), nil
+	return dto.ConvertUserModelToUserResponseDTO(user), nil
 }
 
 func (service *userServiceImpl) GetByEmail(email string) (*dto.UserResponseDTO, error) {
@@ -55,12 +55,12 @@ func (service *userServiceImpl) GetByEmail(email string) (*dto.UserResponseDTO, 
 		return nil, err
 	}
 
-	return dto.ToUserResponseDTO(user), nil
+	return dto.ConvertUserModelToUserResponseDTO(user), nil
 }
 
 func (service *userServiceImpl) Create(userDTO *dto.UserDTO) error {
 
-	user := dto.ToUserModel(userDTO)
+	user := dto.ConvertUserDTOToUserModel(userDTO)
 
 	// Check if the user already exists by email
 	existingUser, err := service.userRepo.GetByEmail(user.Email)

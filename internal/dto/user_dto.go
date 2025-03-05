@@ -19,7 +19,7 @@ type UserResponseDTO struct {
 	UpdatedDate time.Time `json:"updated_date"`
 }
 
-func ToUserModel(dto *UserDTO) *model.User {
+func ConvertUserDTOToUserModel(dto *UserDTO) *model.User {
 	return &model.User{
 		Email:       dto.Email,
 		Password:    dto.Password,
@@ -27,7 +27,7 @@ func ToUserModel(dto *UserDTO) *model.User {
 	}
 }
 
-func ToUserResponseDTO(user *model.User) *UserResponseDTO {
+func ConvertUserModelToUserResponseDTO(user *model.User) *UserResponseDTO {
 	return &UserResponseDTO{
 		ID:          user.ID,
 		Email:       user.Email,
@@ -37,10 +37,10 @@ func ToUserResponseDTO(user *model.User) *UserResponseDTO {
 	}
 }
 
-func ToUserResponseDTOs(users []model.User) []UserResponseDTO {
+func ConvertUserModelsToUserResponseDTOs(users []model.User) []UserResponseDTO {
 	var userDTOs []UserResponseDTO
 	for _, user := range users {
-		userDTO := ToUserResponseDTO(&user)
+		userDTO := ConvertUserModelToUserResponseDTO(&user)
 		userDTOs = append(userDTOs, *userDTO)
 	}
 
